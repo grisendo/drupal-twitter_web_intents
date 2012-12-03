@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @file
+ * Views handler to show Follow link.
+ */
+
+/**
+ * Field handler for Follow link.
+ *
+ * @ingroup views_field_handlers
+ */
 class views_handler_field_twitter_web_intents_follow_link extends views_handler_field_twitter_web_intents_link {
 
   protected $default_text = 'Follow';

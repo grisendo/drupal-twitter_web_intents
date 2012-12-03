@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @file
+ * Views handler to show a link, to be inherited from others.
+ */
+
+/**
+ * Main field handler for links.
+ *
+ * @ingroup views_field_handlers
+ */
 class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
   protected $default_text = 'Link';
