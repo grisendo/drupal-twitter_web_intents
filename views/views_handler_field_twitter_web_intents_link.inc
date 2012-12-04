@@ -14,6 +14,8 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
   protected $default_text = 'Link';
   protected $required_twitter_field = 'twitter_id';
+  protected $_cached_attributes = NULL;
+  protected $_cached_parameters = FALSE;
 
   function construct() {
     parent::construct();
@@ -28,24 +30,162 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
   function option_definition() {
     $options = parent::option_definition();
     $options['text'] = array('default' => '', 'translatable' => TRUE);
+    $options['link_title'] = array('default' => '', 'translatable' => TRUE);
+    $options['link_name'] = array('default' => '', 'translatable' => FALSE);
+    $options['link_rel'] = array('default' => '', 'translatable' => FALSE);
+    $options['link_classes'] = array('default' => '', 'translatable' => FALSE);
+    $options['link_style'] = array('default' => '', 'translatable' => FALSE);
+    $options['link_target'] = array('default' => '', 'translatable' => FALSE);
     return $options;
   }
 
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
+    $form['alter']['path'] = array('#access' => FALSE);
+    $form['alter']['external'] = array('#access' => FALSE);
     $form['text'] = array(
       '#type' => 'textfield',
       '#title' => t('Text to display'),
       '#default_value' => $this->options['text'] ? $this->options['text'] : $this->default_text,
     );
+    $form['link_options'] = array(
+      '#type' => 'fieldset',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#title' => t('Link options'),
+    );
+    $form['link_title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#description' => t('The description displayed when hovering over the link.'),
+      '#default_value' => $this->options['link_title'] ? $this->options['link_title'] : '',
+      '#fieldset' => 'link_options',
+    );
+    $form['link_name'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Name'),
+      '#fieldset' => 'link_options',
+      '#default_value' => $this->options['link_name'] ? $this->options['link_name'] : '',
+    );
+    $form['link_rel'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Relationship'),
+      '#description' => t("Specifies the relationship between the current page and the link. Enter 'nofollow' here to nofollow this link."),
+      '#fieldset' => 'link_options',
+      '#default_value' => $this->options['link_rel'] ? $this->options['link_rel'] : '',
+    );
+    $form['link_classes'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Classes'),
+      '#description' => t('Enter additional classes to be added to the link.'),
+      '#fieldset' => 'link_options',
+      '#default_value' => $this->options['link_classes'] ? $this->options['link_classes'] : '',
+    );
+    $form['link_style'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Style'),
+      '#description' => t('Enter additional styles to be applied to the link.'),
+      '#fieldset' => 'link_options',
+      '#default_value' => $this->options['link_style'] ? $this->options['link_style'] : '',
+    );
+    $form['link_target'] = array(
+      '#type' => 'select',
+      '#title' => t('Target'),
+      '#required' => FALSE,
+      '#options' => array(
+        '' => 'None (i.e. same window)',
+        '_blank' => 'New window (_blank)',
+        '_top' => 'Top window (_top)',
+        '_self' => 'Same window (_self)',
+        '_parent' => 'Parent window (_parent)',
+      ),
+      '#description' => t('Specifies where to open the link. Using this attribute breaks XHTML validation.'),
+      '#fieldset' => 'link_options',
+      '#default_value' => $this->options['link_target'] ? $this->options['link_target'] : '',
+    );
+  }
+
+  function get_link_options() {
+
+    // Esta "caché" está mal, hacerla variable STATIC por ID vista - ID campo
+
+    if (!$this->cached_attributes) {
+      $given_options = array();
+      $given_options['attributes'] = array();
+
+      $option_keys = array(
+        'title' => 'link_title',
+        'name' => 'link_name',
+        'rel' => 'link_rel',
+        'class' => 'link_classes',
+        'style' => 'link_style',
+        'target' => 'link_target',
+      );
+
+      foreach ($option_keys as $attribute => $option_key) {
+        if (isset($this->options[$option_key]) && $this->options[$option_key]) {
+          $given_options['attributes'][$attribute] = $this->options[$option_key];
+        }
+      }
+
+      $this->_cached_attributes = $given_options;
+
+      return $given_options;
+
+    }
+    else {
+
+      return $this->_cached_attributes;
+
+    }
+
+  }
+
+  function build_parameters($parameters) {
+
+    // Esta "caché" está mal, hacerla variable STATIC por ID vista - ID campo
+
+    if ($this->_cached_parameters === FALSE) {
+      $params = '';
+      foreach ($parameters as $param => $configuration) {
+        $escape_mode = isset($configuration['escape_mode']) ? $configuration['escape_mode'] : 0;
+        $param_id = isset($configuration['parameter']) ? $configuration['parameter'] : 'dummy';
+        if ( isset($this->options[$param]) && $this->options[$param]) {
+          if ($escape_mode === 1) {
+            $val = str_replace(
+              array(':', ' '),
+              array('%3A', '%20'),
+              $this->options[$param]
+            );
+          }
+          elseif ($escape_mode === 2) {
+            $val = urlencode($this->options[$param]);
+          }
+          else {
+            $val = $this->options[$param];
+          }
+          $params .= ('&' . $param_id . '=' . $val);
+        }
+      }
+      return $params;
+    }
+    else {
+      return $this->_cached_parameters;
+    }
+
   }
 
   function render_link($link) {
-    if (!isset($this->options['text']) || ! ($this->options['text'])) {
-      return l(t($this->default_text), $link);
+    $added_js = &drupal_static('twitter_web_intents_added_js', FALSE);
+    if (!$added_js) {
+      $added_js = TRUE;
+      drupal_add_js('http://platform.twitter.com/widgets.js');
+    }
+    if (!(isset($this->options['text'])) || !($this->options['text'])) {
+      return l(t($this->default_text), $link, $this->get_link_options());
     }
     else {
-      return l(t($this->options['text']), $link);
+      return l(t($this->options['text']), $link, $this->get_link_options());
     }
   }
 
