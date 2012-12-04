@@ -50,10 +50,10 @@ class views_handler_field_twitter_web_intents_reply_link extends views_handler_f
       '#default_value' => $this->options['reply_text'] ? $this->options['reply_text'] : '',
       '#fieldset' => 'reply_options',
     );
-    $form['reply_hastags'] = array(
+    $form['reply_hashtags'] = array(
       '#type' => 'textfield',
       '#title' => t('Reply hashtags'),
-      '#default_value' => $this->options['reply_hastags'] ? $this->options['reply_hastags'] : '',
+      '#default_value' => $this->options['reply_hashtags'] ? $this->options['reply_hashtags'] : '',
       '#fieldset' => 'reply_options',
     );
     $form['reply_related'] = array(
@@ -80,7 +80,7 @@ class views_handler_field_twitter_web_intents_reply_link extends views_handler_f
           'parameter' => 'text',
           'escape_mode' => 2,
         ),
-        'reply_hastags' => array(
+        'reply_hashtags' => array(
           'parameter' => 'hashtags',
           'escape_mode' => 0,
         ),

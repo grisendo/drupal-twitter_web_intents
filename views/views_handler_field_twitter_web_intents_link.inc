@@ -150,7 +150,7 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
       foreach ($parameters as $param => $configuration) {
         $escape_mode = isset($configuration['escape_mode']) ? $configuration['escape_mode'] : 0;
         $param_id = isset($configuration['parameter']) ? $configuration['parameter'] : 'dummy';
-        if ( isset($this->options[$param]) && $this->options[$param]) {
+        if (isset($this->options[$param]) && $this->options[$param]) {
           if ($escape_mode === 1) {
             $val = str_replace(
               array(':', ' '),
