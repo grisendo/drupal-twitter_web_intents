@@ -12,6 +12,14 @@
  */
 class views_handler_area_twitter_web_intents_follow_link extends views_handler {
 
+  /**
+   * init the handler with necessary data.
+   * @param $view
+   *   The $view object this handler is attached to.
+   * @param $options
+   *   The item from the database; the actual contents of this will vary
+   *   based upon the type of handler.
+   */
   public function init(&$view, &$options) {
     parent::init($view, $options);
     if ($this->handler_type == 'empty') {
@@ -19,6 +27,9 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
     }
   }
 
+  /**
+   * Get this field's label.
+   */
   public function label() {
     if (!isset($this->options['label'])) {
       return $this->ui_name();
@@ -26,42 +37,30 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
     return $this->options['label'];
   }
 
-  public function get_link_options() {
-
-    $cached_attributes = &drupal_static('twitter_web_intents_attrs_area_' . $this->view->dom_id . '_' . $this->handler_type . '_' . $this->options['id'], FALSE);
-
-    if ($cached_attributes === FALSE) {
-      $given_options = array();
-      $given_options['attributes'] = array();
-
-      $option_keys = array(
-        'title' => 'link_title',
-        'name' => 'link_name',
-        'rel' => 'link_rel',
-        'class' => 'link_classes',
-        'style' => 'link_style',
-        'target' => 'link_target',
-      );
-
-      foreach ($option_keys as $attribute => $option_key) {
-        if (isset($this->options[$option_key]) && $this->options[$option_key]) {
-          $given_options['attributes'][$attribute] = $this->options[$option_key];
-        }
-      }
-
-      $cached_attributes = $given_options;
-
-      return $given_options;
-
-    }
-    else {
-
-      return $cached_attributes;
-
-    }
-
-  }
-
+  /**
+   * Information about options for all kinds of purposes will be held here.
+   * @code
+   * 'option_name' => array(
+   *  - 'default' => default value,
+   *  - 'translatable' => (optional) TRUE/FALSE (wrap in t() on export if true),
+   *  - 'contains' => (optional) array of items this contains, with its own
+   *      defaults, etc. If contains is set, the default will be ignored and
+   *      assumed to be array().
+   *  - 'bool' => (optional) TRUE/FALSE Is the value a boolean value. This will
+   *      change the export format to TRUE/FALSE instead of 1/0.
+   *  - 'export' => (optional) FALSE or a callback for special export handling
+   *      if necessary.
+   *  - 'unpack_translatable' => (optional) callback for special handling for
+   *      translating data within the option, if necessary.
+   *  ),
+   *
+   * @return array
+   *   Returns the options of this handler/plugin.
+   *
+   * @see views_object::export_option()
+   * @see views_object::export_option_always()
+   * @see views_object::unpack_translatable()
+   */
   public function option_definition() {
     $options = parent::option_definition();
     $this->definition['field'] = !empty($this->definition['field']) ? $this->definition['field'] : '';
@@ -81,10 +80,16 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
     return $options;
   }
 
+  /**
+   * Provide text for the administrative summary.
+   */
   public function admin_summary() {
     return $this->label();
   }
 
+  /**
+   * Build the options form.
+   */
   public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['label'] = array(
@@ -191,10 +196,58 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
     );
   }
 
+  /**
+   * Called to add the field to a query.
+   */
   public function query() {
     return NULL;
   }
 
+  /**
+   * Auxiliar function to get link attributes from options.
+   */
+  public function get_link_options() {
+
+    $cached_attributes = &drupal_static('twitter_web_intents_attrs_area_' . $this->view->dom_id . '_' . $this->handler_type . '_' . $this->options['id'], FALSE);
+
+    if ($cached_attributes === FALSE) {
+      $given_options = array();
+      $given_options['attributes'] = array();
+
+      $option_keys = array(
+        'title' => 'link_title',
+        'name' => 'link_name',
+        'rel' => 'link_rel',
+        'class' => 'link_classes',
+        'style' => 'link_style',
+        'target' => 'link_target',
+      );
+
+      foreach ($option_keys as $attribute => $option_key) {
+        if (isset($this->options[$option_key]) && $this->options[$option_key]) {
+          $given_options['attributes'][$attribute] = $this->options[$option_key];
+        }
+      }
+
+      $cached_attributes = $given_options;
+
+      return $given_options;
+
+    }
+    else {
+
+      return $cached_attributes;
+
+    }
+
+  }
+
+  /**
+   * Render the field.
+   *
+   * @param $values
+   *   The values retrieved from the database.
+   */
   public function render($empty = FALSE) {
     if ($this->options['follow_mode']) {
       if (isset($this->options['follow_userid']) && $this->options['follow_userid']) {
@@ -220,6 +273,9 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
     }
   }
 
+  /**
+   * Provides the handler some groupby.
+   */
   public function use_group_by() {
     return FALSE;
   }

@@ -12,22 +12,56 @@
  */
 class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
+  // Default link text (overrided from other handlers).
   protected $defaultText = 'Link';
+
+  // Required column from Twitter table (overrided from other handlers).
   protected $requiredTwitterField = 'twitter_id';
 
+  /**
+   * Views handlers use a special construct function so that we can more
+   * easily construct them with variable arguments.
+   */
   public function construct() {
     parent::construct();
     $this->additional_fields[$this->requiredTwitterField] = $this->requiredTwitterField;
   }
 
+  /**
+   * Called to add the field to a query.
+   */
   public function query() {
     $this->ensure_my_table();
     $this->add_additional_fields();
   }
 
+  /**
+   * Information about options for all kinds of purposes will be held here.
+   * @code
+   * 'option_name' => array(
+   *  - 'default' => default value,
+   *  - 'translatable' => (optional) TRUE/FALSE (wrap in t() on export if true),
+   *  - 'contains' => (optional) array of items this contains, with its own
+   *      defaults, etc. If contains is set, the default will be ignored and
+   *      assumed to be array().
+   *  - 'bool' => (optional) TRUE/FALSE Is the value a boolean value. This will
+   *      change the export format to TRUE/FALSE instead of 1/0.
+   *  - 'export' => (optional) FALSE or a callback for special export handling
+   *      if necessary.
+   *  - 'unpack_translatable' => (optional) callback for special handling for
+   *      translating data within the option, if necessary.
+   *  ),
+   *
+   * @return array
+   *   Returns the options of this handler/plugin.
+   *
+   * @see views_object::export_option()
+   * @see views_object::export_option_always()
+   * @see views_object::unpack_translatable()
+   */
   public function option_definition() {
     $options = parent::option_definition();
-    $options['text'] = array('default' => '', 'translatable' => TRUE);
+    $options['text'] = array('default' => $this->defaultText, 'translatable' => TRUE);
     $options['link_title'] = array('default' => '', 'translatable' => TRUE);
     $options['link_name'] = array('default' => '', 'translatable' => FALSE);
     $options['link_rel'] = array('default' => '', 'translatable' => FALSE);
@@ -37,6 +71,9 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
     return $options;
   }
 
+  /**
+   * Build the options form.
+   */
   public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['alter']['path'] = array('#access' => FALSE);
@@ -103,6 +140,9 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
     );
   }
 
+  /**
+   * Auxiliar function to get link attributes from options.
+   */
   public function get_link_options() {
 
     $cached_attributes = &drupal_static('twitter_web_intents_attrs_' . $this->view->dom_id . '_' . $this->options['id'], FALSE);
@@ -139,6 +179,9 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
   }
 
+  /**
+   * Auxiliar function to build URL parameters from options.
+   */
   public function build_parameters($parameters) {
     $cached_parameters = &drupal_static('twitter_web_intents_params_' . $this->view->dom_id . '_' . $this->options['id'], FALSE);
 
@@ -173,6 +216,9 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
   }
 
+  /**
+   * Auxiliar function to help render the link from child classes.
+   */
   public function render_link($link) {
     $added_js = &drupal_static('twitter_web_intents_added_js', FALSE);
     if (!$added_js) {
