@@ -14,7 +14,7 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
 
   /**
    * Init the handler with necessary data.
-   * 
+   *
    * @param stdClass $view
    *   The $view object this handler is attached to.
    * @param array $options
@@ -57,7 +57,6 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
    *
    * @return array
    *   Returns the options of this handler/plugin.
-   *
    */
   public function option_definition() {
     $options = parent::option_definition();

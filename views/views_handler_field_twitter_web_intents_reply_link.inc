@@ -34,7 +34,6 @@ class views_handler_field_twitter_web_intents_reply_link extends views_handler_f
    *
    * @return array
    *   Returns the options of this handler/plugin.
-   *
    */
   public function option_definition() {
     $options = parent::option_definition();
