@@ -35,9 +35,6 @@ class views_handler_field_twitter_web_intents_reply_link extends views_handler_f
    * @return array
    *   Returns the options of this handler/plugin.
    *
-   * @see views_object::export_option()
-   * @see views_object::export_option_always()
-   * @see views_object::unpack_translatable()
    */
   public function option_definition() {
     $options = parent::option_definition();
@@ -95,7 +92,7 @@ class views_handler_field_twitter_web_intents_reply_link extends views_handler_f
   /**
    * Render the field.
    *
-   * @param $values
+   * @param stdClass $values
    *   The values retrieved from the database.
    */
   public function render($values) {

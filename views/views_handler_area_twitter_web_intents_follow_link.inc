@@ -13,10 +13,11 @@
 class views_handler_area_twitter_web_intents_follow_link extends views_handler {
 
   /**
-   * init the handler with necessary data.
-   * @param $view
+   * Init the handler with necessary data.
+   * 
+   * @param stdClass $view
    *   The $view object this handler is attached to.
-   * @param $options
+   * @param array $options
    *   The item from the database; the actual contents of this will vary
    *   based upon the type of handler.
    */
@@ -57,9 +58,6 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
    * @return array
    *   Returns the options of this handler/plugin.
    *
-   * @see views_object::export_option()
-   * @see views_object::export_option_always()
-   * @see views_object::unpack_translatable()
    */
   public function option_definition() {
     $options = parent::option_definition();
@@ -245,10 +243,10 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
   /**
    * Render the field.
    *
-   * @param $values
+   * @param stdClass $values
    *   The values retrieved from the database.
    */
-  public function render($empty = FALSE) {
+  public function render($values = FALSE) {
     if ($this->options['follow_mode']) {
       if (isset($this->options['follow_userid']) && $this->options['follow_userid']) {
         $query = '?user_id=' . $this->options['follow_userid'];

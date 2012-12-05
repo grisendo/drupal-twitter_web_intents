@@ -19,8 +19,7 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
   protected $requiredTwitterField = 'twitter_id';
 
   /**
-   * Views handlers use a special construct function so that we can more
-   * easily construct them with variable arguments.
+   * Views handlers use a special construct function so that we can more easily construct them with variable arguments.
    */
   public function construct() {
     parent::construct();
@@ -55,9 +54,6 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
    * @return array
    *   Returns the options of this handler/plugin.
    *
-   * @see views_object::export_option()
-   * @see views_object::export_option_always()
-   * @see views_object::unpack_translatable()
    */
   public function option_definition() {
     $options = parent::option_definition();
