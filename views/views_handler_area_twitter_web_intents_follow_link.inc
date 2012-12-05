@@ -12,21 +12,21 @@
  */
 class views_handler_area_twitter_web_intents_follow_link extends views_handler {
 
-  function init(&$view, &$options) {
+  public function init(&$view, &$options) {
     parent::init($view, $options);
     if ($this->handler_type == 'empty') {
       $this->options['empty'] = TRUE;
     }
   }
 
-  function label() {
+  public function label() {
     if (!isset($this->options['label'])) {
       return $this->ui_name();
     }
     return $this->options['label'];
   }
 
-  function get_link_options() {
+  public function get_link_options() {
 
     $cached_attributes = &drupal_static('twitter_web_intents_attrs_area_' . $this->view->dom_id . '_' . $this->handler_type . '_' . $this->options['id'], FALSE);
 
@@ -62,7 +62,7 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
 
   }
 
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
     $this->definition['field'] = !empty($this->definition['field']) ? $this->definition['field'] : '';
     $label = !empty($this->definition['label']) ? $this->definition['label'] : $this->definition['field'];
@@ -81,11 +81,11 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
     return $options;
   }
 
-  function admin_summary() {
+  public function admin_summary() {
     return $this->label();
   }
 
-  function options_form(&$form, &$form_state){
+  public function options_form(&$form, &$form_state){
     parent::options_form($form, $form_state);
     $form['label'] = array(
       '#type' => 'textfield',
@@ -191,11 +191,11 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
     );
   }
 
-  function query() {
+  public function query() {
     return NULL;
   }
 
-  function render($empty = FALSE) {
+  public function render($empty = FALSE) {
     if ($this->options['follow_mode']) {
       if (isset($this->options['follow_userid']) && $this->options['follow_userid']) {
         $query = '?user_id=' . $this->options['follow_userid'];
@@ -220,7 +220,7 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
     }
   }
 
-  function use_group_by() {
+  public function use_group_by() {
     return FALSE;
   }
 

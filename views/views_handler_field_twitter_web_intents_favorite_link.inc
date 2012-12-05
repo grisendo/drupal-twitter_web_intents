@@ -14,7 +14,7 @@ class views_handler_field_twitter_web_intents_favorite_link extends views_handle
 
   protected $default_text = 'Favorite';
 
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
     $options['favorite_related'] = array('default' => '', 'translatable' => FALSE);
     return $options;

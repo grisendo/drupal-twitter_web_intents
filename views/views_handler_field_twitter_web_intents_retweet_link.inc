@@ -14,13 +14,13 @@ class views_handler_field_twitter_web_intents_retweet_link extends views_handler
 
   protected $default_text = 'Retweet';
 
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
     $options['retweet_related'] = array('default' => '', 'translatable' => FALSE);
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['retweet_options'] = array(
       '#type' => 'fieldset',
@@ -36,7 +36,7 @@ class views_handler_field_twitter_web_intents_retweet_link extends views_handler
     );
   }
 
-  function render($values){
+  public function render($values){
     $link = 'https://twitter.com/intent/retweet?tweet_id=' . $values->twitter_id;
     $link .= $this->build_parameters(
       array(

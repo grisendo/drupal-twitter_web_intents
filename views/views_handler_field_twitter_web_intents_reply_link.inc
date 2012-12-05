@@ -14,7 +14,7 @@ class views_handler_field_twitter_web_intents_reply_link extends views_handler_f
 
   protected $default_text = 'Reply';
 
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
     $options['reply_url'] = array('default' => '', 'translatable' => FALSE);
     $options['reply_via'] = array('default' => '', 'translatable' => FALSE);
@@ -24,7 +24,7 @@ class views_handler_field_twitter_web_intents_reply_link extends views_handler_f
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['reply_options'] = array(
       '#type' => 'fieldset',
@@ -64,7 +64,7 @@ class views_handler_field_twitter_web_intents_reply_link extends views_handler_f
     );
   }
 
-  function render($values) {
+  public function render($values) {
     $link = 'https://twitter.com/intent/tweet?in_reply_to=' . $values->twitter_id;
     $link .= $this->build_parameters(
       array(
