@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Views handler to show Reply link.
+ * Views handler to show Reply link field.
  */
 
 /**

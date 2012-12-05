@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Views handler to show Favorite link.
+ * Views handler to show Favorite link field.
  */
 
 /**

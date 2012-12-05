@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Views handler to show Follow link.
+ * Views handler to show Follow link field.
  */
 
 /**

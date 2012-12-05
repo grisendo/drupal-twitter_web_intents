@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Views handler to show Retweet link.
+ * Views handler to show Retweet link field.
  */
 
 /**

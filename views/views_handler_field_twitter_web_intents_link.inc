@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Views handler to show a link, to be inherited from others.
+ * Views handler to show a link field, to be inherited from others.
  */
 
 /**
@@ -14,8 +14,6 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
   protected $default_text = 'Link';
   protected $required_twitter_field = 'twitter_id';
-  protected $_cached_attributes = NULL;
-  protected $_cached_parameters = FALSE;
 
   function construct() {
     parent::construct();
@@ -107,9 +105,9 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
   function get_link_options() {
 
-    // Esta "caché" está mal, hacerla variable STATIC por ID vista - ID campo
+    $cached_attributes = &drupal_static('twitter_web_intents_attrs_' . $this->view->dom_id . '_' . $this->options['id'], FALSE);
 
-    if (!$this->cached_attributes) {
+    if ($cached_attributes === FALSE) {
       $given_options = array();
       $given_options['attributes'] = array();
 
@@ -128,24 +126,23 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
         }
       }
 
-      $this->_cached_attributes = $given_options;
+      $cached_attributes = $given_options;
 
       return $given_options;
 
     }
     else {
 
-      return $this->_cached_attributes;
+      return $cached_attributes;
 
     }
 
   }
 
   function build_parameters($parameters) {
+    $cached_parameters = &drupal_static('twitter_web_intents_params_' . $this->view->dom_id . '_' . $this->options['id'], FALSE);
 
-    // Esta "caché" está mal, hacerla variable STATIC por ID vista - ID campo
-
-    if ($this->_cached_parameters === FALSE) {
+    if ($cached_parameters === FALSE) {
       $params = '';
       foreach ($parameters as $param => $configuration) {
         $escape_mode = isset($configuration['escape_mode']) ? $configuration['escape_mode'] : 0;
@@ -167,10 +164,11 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
           $params .= ('&' . $param_id . '=' . $val);
         }
       }
+      $cached_parameters = $params;
       return $params;
     }
     else {
-      return $this->_cached_parameters;
+      return $cached_parameters;
     }
 
   }

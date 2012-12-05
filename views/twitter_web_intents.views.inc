@@ -39,6 +39,9 @@ function twitter_web_intents_views_data_alter(&$data) {
     'field' => array(
       'handler' => 'views_handler_field_twitter_web_intents_follow_link',
     ),
+    'area' => array(
+      'handler' => 'views_handler_area_twitter_web_intents_follow_link',
+    ),
   );
 
 }
@@ -67,6 +70,9 @@ function twitter_web_intents_views_handlers() {
       ),
       'views_handler_field_twitter_web_intents_follow_link' => array(
         'parent' => 'views_handler_field_twitter_web_intents_link',
+      ),
+      'views_handler_area_twitter_web_intents_follow_link' => array(
+        'parent' => 'views_handler',
       ),
     ),
   );
