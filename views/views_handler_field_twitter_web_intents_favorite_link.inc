@@ -12,7 +12,7 @@
  */
 class views_handler_field_twitter_web_intents_favorite_link extends views_handler_field_twitter_web_intents_link {
 
-  protected $default_text = 'Favorite';
+  protected $defaultText = 'Favorite';
 
   public function option_definition() {
     $options = parent::option_definition();
@@ -20,7 +20,7 @@ class views_handler_field_twitter_web_intents_favorite_link extends views_handle
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['favorite_options'] = array(
       '#type' => 'fieldset',
@@ -36,7 +36,7 @@ class views_handler_field_twitter_web_intents_favorite_link extends views_handle
     );
   }
 
-  function render($values) {
+  public function render($values) {
     $link = 'https://twitter.com/intent/favorite?tweet_id=' . $values->twitter_id;
     $link .= $this->build_parameters(
       array(

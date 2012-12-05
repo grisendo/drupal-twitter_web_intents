@@ -12,20 +12,20 @@
  */
 class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
-  protected $default_text = 'Link';
-  protected $required_twitter_field = 'twitter_id';
+  protected $defaultText = 'Link';
+  protected $requiredTwitterField = 'twitter_id';
 
-  function construct() {
+  public function construct() {
     parent::construct();
-    $this->additional_fields[$this->required_twitter_field] = $this->required_twitter_field;
+    $this->additional_fields[$this->requiredTwitterField] = $this->requiredTwitterField;
   }
 
-  function query() {
+  public function query() {
     $this->ensure_my_table();
     $this->add_additional_fields();
   }
 
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
     $options['text'] = array('default' => '', 'translatable' => TRUE);
     $options['link_title'] = array('default' => '', 'translatable' => TRUE);
@@ -37,14 +37,14 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['alter']['path'] = array('#access' => FALSE);
     $form['alter']['external'] = array('#access' => FALSE);
     $form['text'] = array(
       '#type' => 'textfield',
       '#title' => t('Text to display'),
-      '#default_value' => $this->options['text'] ? $this->options['text'] : $this->default_text,
+      '#default_value' => $this->options['text'] ? $this->options['text'] : $this->defaultText,
     );
     $form['link_options'] = array(
       '#type' => 'fieldset',
@@ -103,7 +103,7 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
     );
   }
 
-  function get_link_options() {
+  public function get_link_options() {
 
     $cached_attributes = &drupal_static('twitter_web_intents_attrs_' . $this->view->dom_id . '_' . $this->options['id'], FALSE);
 
@@ -139,7 +139,7 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
   }
 
-  function build_parameters($parameters) {
+  public function build_parameters($parameters) {
     $cached_parameters = &drupal_static('twitter_web_intents_params_' . $this->view->dom_id . '_' . $this->options['id'], FALSE);
 
     if ($cached_parameters === FALSE) {
@@ -173,14 +173,14 @@ class views_handler_field_twitter_web_intents_link extends views_handler_field {
 
   }
 
-  function render_link($link) {
+  public function render_link($link) {
     $added_js = &drupal_static('twitter_web_intents_added_js', FALSE);
     if (!$added_js) {
       $added_js = TRUE;
       drupal_add_js('http://platform.twitter.com/widgets.js');
     }
     if (!(isset($this->options['text'])) || !($this->options['text'])) {
-      return l(t($this->default_text), $link, $this->get_link_options());
+      return l(t($this->defaultText), $link, $this->get_link_options());
     }
     else {
       return l(t($this->options['text']), $link, $this->get_link_options());

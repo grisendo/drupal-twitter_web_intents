@@ -12,7 +12,7 @@
  */
 class views_handler_field_twitter_web_intents_reply_link extends views_handler_field_twitter_web_intents_link {
 
-  protected $default_text = 'Reply';
+  protected $defaultText = 'Reply';
 
   public function option_definition() {
     $options = parent::option_definition();

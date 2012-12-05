@@ -85,7 +85,7 @@ class views_handler_area_twitter_web_intents_follow_link extends views_handler {
     return $this->label();
   }
 
-  public function options_form(&$form, &$form_state){
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['label'] = array(
       '#type' => 'textfield',
