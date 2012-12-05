@@ -22,8 +22,8 @@ extra behaviors (i.e. adding hashtags, adding "via" text...).
 Specifically, right now it adds these fields:
   * Reply link field (a tweet given by the current row).
   * Retweet link field (a tweet given by the current row).
-  * Favorite link field (a tweet given by the current row). 
-  * Follow link field (an account given by the row's current tweet). 
+  * Favorite link field (a tweet given by the current row).
+  * Follow link field (an account given by the row's current tweet).
   * Follow link area (Twiter account to follow, by ID or screen name).
 
 In each field, all links can be configured as described in Twitter Web Intents
@@ -45,8 +45,8 @@ documentation page: https://dev.twitter.com/docs/intents, :
     * Link text.
   * Follow link area.
     * Author input mode (ID / Screen name).
-    * Author's link by ID (When Author input mode = ID)
-    * Author's link by Screen name (When Author input mode = Screen name)
+    * Author's link by ID (When Author input mode = ID).
+    * Author's link by Screen name (When Author input mode = Screen name).
 
 For all of them, link attributes are also configurable, with this options:
   * Title ("title" attribute).
@@ -57,11 +57,10 @@ For all of them, link attributes are also configurable, with this options:
   * Target ("target" attribute, it's only effective when navigator's JS
     is disabled).
 
-Additional javascript is added from Twitter api:
-http://platform.twitter.com/widgets.js,
-
-But it is added just when necessary (when rendering some of the given fields),
-not in every page.
+Additional javascript is added from Twitter API:
+http://platform.twitter.com/widgets.js
+This script is added just when necessary (when rendering some of the given
+fields), not in every page.
 
 
 REQUIREMENTS
